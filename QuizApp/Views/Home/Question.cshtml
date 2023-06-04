@@ -1,0 +1,86 @@
+﻿@model List<Question>
+@{
+    Layout = null;
+    int count = 0;
+    int total = Model.Count;
+    var questions = new List<Question>();
+    questions = Model;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/fontawesome/css/all.min.css">
+    <title>Quiz</title>
+</head>
+<body>
+    <div class="main">
+        @foreach(var item in Model)
+        {
+            count++;
+            <div class="question question_@count">
+                <a href="/Home" class="close">X</a>
+                <div>
+                    <img class="logo-question" src="/img/quiz.png" />
+                </div>
+                <div class="title">
+                    <h3>Câu hỏi @count/@Model.Count</h3>
+                </div>
+                <div class="content-question">
+                    <p>@item.Content</p>
+                </div>
+                <div class="answer">
+                    @foreach(var answer in item.Answers)
+                    {
+                        <div class="item-answer">
+                            <p>@answer.Content</p><span><i class="fa-regular fa-circle"></i></span>
+                            <input id="@answer.Id" type="hidden" value="@answer.Correct" />
+                        </div>
+                    }
+                </div>
+                <div class="box-continue">
+                    <input class="questionMax" type="hidden" value="@total" />
+                    @if(count < Model.Count)
+                    {
+                        <button class="continue" disabled>
+                            Câu tiếp theo
+                        </button>
+                    }
+                </div>
+            </div>
+        }
+        <div class="historyQuestion">
+
+        </div>
+        <div class="modal-box-passed">
+            <div class="modal-passed">
+                <img class="img-passed" src="/img/quiz.png" />
+                <h2>Quá đẳng cấp!</h2>
+                <p>Bạn rất chi là thông minh và nhanh nhẹn :v</p>
+                <p><span class="numberCorrect"></span>/@Model.Count câu trả lời đúng trong vòng <span class="time"></span> giây.</p>
+                <div>
+                    <a href="/Home/Question"><button class="play-again">Chơi lại</button></a>
+                    <button class="play-again history">Lịch sử</button>
+                    <a href="/Home"><button class="out">Thoát</button></a>
+                </div>
+            </div>
+            <div class="modal-playAgain">
+                <img class="img-passed" src="/img/dsa.jpg" />
+                <h2>Mém tí nữa là được rồi T^T</h2>
+                <p>Chúc bạn may mắn lần sau nha! </p>
+                <p><span class="numberCorrect"></span>/@Model.Count câu trả lời đúng trong vòng <span class="time"></span> giây.</p>
+                <div>
+                    <a href="/Home/Question"><button class="play-again">Chơi lại</button></a>
+                    <button class="play-again history">Lịch sử</button>
+                    <a href="/Home"><button class="out">Thoát</button></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="~/js/main.js"></script>
+</body>
+</html>
